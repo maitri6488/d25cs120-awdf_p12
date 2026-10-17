@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 12: CI/CD Pipeline with GitHub Actions - Maitri Sheta (D25CS120)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header matching Practical 10 & 11 -->
+        <header>
+            <h1>Practical 12: CI/CD Pipeline with GitHub Actions</h1>
+            <p>Automated build verification and continuous integration testing on every git push</p>
+        </header>
+
+        <!-- Notification Banner -->
+        <div id="toast" class="toast hidden"></div>
+
+        <div class="grid-layout">
+            <!-- Left Column: Task Creation & Tasks List -->
+            <div class="column">
+                <div class="card">
+                    <h2>➕ Create Task (CI/CD Automated)</h2>
+                    <p class="card-desc">Tested via automated Supertest suite on GitHub Actions runners</p>
+
+                    <form id="create-task-form">
+                        <div class="form-group">
+                            <label for="task-title">Task Title *</label>
+                            <input type="text" id="task-title" placeholder="e.g. Verify CI workflow on main branch" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="task-user">Assigned Student / ID</label>
+                            <input type="text" id="task-user" value="Maitri Sheta (D25CS120)" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="task-priority">Priority</label>
+                            <select id="task-priority">
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Create Task (POST /tasks)</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>Existing Tasks</h2>
+                    <p class="card-desc">Endpoints covered by automated Jest tests in <code>tests/task.test.js</code></p>
+                    <ul id="tasks-list" class="tasks-list"></ul>
+                </div>
+            </div>
+
+            <!-- Right Column: CI/CD Pipeline Status & Live Diagnostics -->
+            <div class="column">
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <h2>🚀 GitHub Actions CI Pipeline</h2>
+                        <div style="display: flex; gap: 6px;">
+                            <button id="btn-run-tests" class="btn btn-sm btn-primary">Check API Health</button>
+                            <button id="btn-clear-logs" class="btn btn-sm btn-secondary">Clear</button>
+                        </div>
+                    </div>
+                    <p class="card-desc">
+                        Trigger: <code>on: push [main]</code> &bull; Runner: <code>ubuntu-latest</code> &bull; Node: <code>18</code>
+                    </p>
+
+                    <!-- CI Step Indicators -->
+                    <div class="ci-steps-grid">
+                        <div class="step-box">
+                            <span class="step-num">Step 1</span>
+                            <strong>Checkout</strong>
+                            <span class="step-status ok">actions/checkout@v4</span>
+                        </div>
+                        <div class="step-box">
+                            <span class="step-num">Step 2</span>
+                            <strong>Node Setup</strong>
+                            <span class="step-status ok">actions/setup-node@v4</span>
+                        </div>
+                        <div class="step-box">
+                            <span class="step-num">Step 3</span>
+                            <strong>Dependencies</strong>
+                            <span class="step-status ok">npm install</span>
+                        </div>
+                        <div class="step-box">
+                            <span class="step-num">Step 4</span>
+                            <strong>Automated Test</strong>
+                            <span class="step-status ok">npm test (Jest)</span>
+                        </div>
+                    </div>
+
+                    <div id="logs-container" class="logs-container">
+                        <p style="text-align: center; color: #888; padding: 15px;">
+                            Initializing CI pipeline log listener...
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>🧠 How GitHub Actions CI Works</h2>
+                    <ol style="font-size: 0.85rem; padding-left: 20px; color: #4a5568; line-height: 1.6;">
+                        <li><strong>Step 1:</strong> Developer runs <code>git push origin main</code>.</li>
+                        <li><strong>Step 2:</strong> GitHub automatically detects <code>.github/workflows/ci.yml</code> and spins up an Ubuntu cloud virtual machine.</li>
+                        <li><strong>Step 3:</strong> Runner checks out repository, sets up Node.js 18, and executes <code>npm install</code>.</li>
+                        <li><strong>Step 4:</strong> Runner executes <code>npm test</code>. If assertions pass, a <strong>Green Checkmark (✔)</strong> is awarded; if any test fails, an immediate <strong>Red X (❌)</strong> alert is flagged!</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>AWDF Practical 12 &bull; Maitri Sheta (D25CS120) &bull; CSE, CSPIT &bull; Charotar University of Science and Technology</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
