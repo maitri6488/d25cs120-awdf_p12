@@ -6,7 +6,7 @@ describe('Task Management API - CI/CD Pipeline Tests', () => {
   // Test 1 (Lab Manual Step 2): Check GET /tasks returns status 200
   test('GET /tasks returns status 200 and a list of tasks', async () => {
     const res = await request(app).get('/tasks');
-    expect(res.statusCode).toBe(500);
+    expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty('success', true);
     expect(Array.isArray(res.body.tasks)).toBe(true);
   });
